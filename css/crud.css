@@ -55,7 +55,7 @@ input[type="number"]::-webkit-outer-spin-button {
 /* input[type="number"] {
     overflow: hidden; 
 } */
-.crud .search button , #sumbit  {
+.crud .search  #sumbit  {
     width: 100%;
     height: 25px;
     border: none;
@@ -72,6 +72,13 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .crud .btnSearch button{
     width: 48%;
+     height: 25px;
+    border: none;
+    cursor: pointer;
+    background-color:#1787e0 ;
+    color: white;
+    border-radius: 10px;
+    transition: 0.5s;
 }
 /* #deleteAll{
     margin: 10px 0 ;
