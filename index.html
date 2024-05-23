@@ -4,21 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUDS</title>
+    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/crud.css">
+    
 </head>
 <body>
     <div class="crud">
         <div class="head">
-            <h2>crud</h2>
+            <h2>cruds</h2>
             <p>product management system</p>
         </div>
+    <button id="downloadBtn" class="btn btn-primary mb-3">Download Data as Excel</button>
+
         <div class="inputs">
             <input type="text" id="title" placeholder="Title">
             <div class="price">
-                <input onclick="getTotal()" type="number" id="price" placeholder="price">
-                <input onclick="getTotal()" type="number" id="taxes" placeholder="taxes">
-                <input onclick="getTotal()" type="number" id="ads" placeholder="ads">
-                <input onclick="getTotal()" type="number" id="discount" placeholder="discount">
+                <input onclick="getTotal()" type="number" id="price" placeholder="price" class="p-2">
+                <input onclick="getTotal()" type="number" id="taxes" placeholder="taxes" class="p-2">
+                <input onclick="getTotal()" type="number" id="ads" placeholder="ads" class="p-2">
+                <input onclick="getTotal()" type="number" id="discount" placeholder="discount" class="p-2">
                 <small id="total"></small>
             </div>
             <input type="number" id="count" placeholder="count">
@@ -42,11 +46,14 @@
                     <th>price</th>
                     <th>taxes</th>
                     <th>ads</th>
+                    <th>count</th>
                     <th>discount</th>
                     <th>total</th>
+                    <th>total all</th>
                     <th>category</th>
                     <th>update</th>
                     <th>detete</th>
+                   
                 </tr>
                 <tbody id="tbody">
              
@@ -55,7 +62,9 @@
          </div>
     </div>
 
-
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="crud.js"></script>
+   
 </body>
 </html>

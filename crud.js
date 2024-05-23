@@ -15,10 +15,13 @@ let taxes = document.getElementById("taxes");
 let ads = document.getElementById("ads");
 let discount = document.getElementById("discount");
 let total = document.getElementById("total");
+// let totalAll = document.getElementById("total-all")
 let count = document.getElementById("count");
 let category = document.getElementById("category");
 let sumbit = document.getElementById("sumbit");
 
+// console.log(price)
+let totalAll;
 let mood = "create";
 let tmp;
 
@@ -43,28 +46,43 @@ if (localStorage.product != null) {
 }
 
 // let dataProduct = [];  // can you update in array
+totalAll = parseInt(total.innerHTML) * parseInt(count.value);
+
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const numbers = "0123456789";
+
+let randomID = "";
+
+for (let i = 0; i < 2; i++) {
+  const randomLetters = Math.floor(Math.random() * letters.length);
+  randomID += letters[randomLetters];
+}
+for (let i = 0; i < 3; i++) {
+  const randomNumbers = Math.floor(Math.random() * numbers.length);
+  randomID += numbers.charAt(randomNumbers);
+
+}
 
 sumbit.onclick = function () {
   let newProduct = {
+    id: randomID,
     title: title.value.toLowerCase(),
     price: price.value,
     taxes: taxes.value,
     ads: ads.value,
     discount: discount.value,
-    total: total.innerHTML,
+    total: total.innerHTML + " EG",
+    totalAll: parseInt(total.innerHTML) * parseInt(count.value) + " EG",
     count: count.value,
     category: category.value.toLowerCase(),
   };
-  //clean data
+  console.log(totalAll);
+  //clear data
   if (title.value != "" && price.value != "" && category.value != "") {
     //update
     if (mood === "create") {
       //count
-      if (newProduct.count > 1) {
-        for (let i = 0; i < newProduct.count; i++) {
-          dataProduct.push(newProduct);
-        }
-      } else {
+      if (newProduct.count) {
         dataProduct.push(newProduct);
       }
     } else {
@@ -74,6 +92,13 @@ sumbit.onclick = function () {
       count.style.display = "block";
     }
     clearData();
+  }else{
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Click Inter Data',
+      confirmButtonText: 'OK'
+  });
   }
 
   //sava in localStorage
@@ -90,8 +115,9 @@ function clearData() {
   ads.value = " ";
   discount.value = " ";
   total.innerHTML = " ";
+  totalAll.innerHTML = " ";
   count.value = "";
-  category.value = "";
+  category.value = "  ";
 }
 
 // read
@@ -101,27 +127,29 @@ function showData() {
   for (let i = 0; i < dataProduct.length; i++) {
     table += `
                   <tr>
-                        <td>${i}</td>
+                        <td>${i + 1}</td>
                         <td>${dataProduct[i].title}</td>
                         <td>${dataProduct[i].price}</td>
                         <td>${dataProduct[i].taxes}</td>
                         <td>${dataProduct[i].ads}</td>
+                        <td>${dataProduct[i].count}</td>
                         <td>${dataProduct[i].discount}</td>
                         <td>${dataProduct[i].total}</td>
+                        <td>${dataProduct[i].totalAll}</td>
                         <td>${dataProduct[i].category}</td>
                      
-                        <td><button onclick="updateData(${i})" id="update">update</button></td>  
-                        <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
+                        <td><button onclick="updateData(${i})" id="update" class="btn btn-success">update</button></td>  
+                        <td><button onclick="deleteData(${i})" id="delete" class="btn btn-danger">delete</button></td>
                     </tr>`;
   }
   document.getElementById("tbody").innerHTML = table;
-  let btnDelete = document.getElementById("deleteAll");
-  if (dataProduct.length > 0) {
-    btnDelete.innerHTML = `
-        <button onclick="deleteAll()">Delete All (${dataProduct.length})</button>`;
-  } else {
-    btnDelete.innerHTML = " ";
-  }
+  // let btnDelete = document.getElementById("deleteAll");
+  // if (dataProduct.length > 0) {
+  //   btnDelete.innerHTML = `
+  //       <button onclick="deleteAll()">Delete All (${dataProduct.length})</button>`;
+  // } else {
+  //   btnDelete.innerHTML = " ";
+  // }
 }
 showData(); // refreah data
 
@@ -144,9 +172,10 @@ function updateData(i) {
   price.value = dataProduct[i].price;
   taxes.value = dataProduct[i].taxes;
   ads.value = dataProduct[i].ads;
+  count.value = dataProduct[i].count;
   discount.value = dataProduct[i].discount;
   getTotal(); // start work total
-  count.style.display = "none";
+  // count.style.display = "none";
   category.value = dataProduct[i].category;
   sumbit.innerHTML = "Update";
   mood = "update";
@@ -179,34 +208,39 @@ function searchData(value) {
       if (dataProduct[i].title.includes(value.toLowerCase())) {
         table += `
           <tr>
-                <td>${i}</td>
+                <td>${i + 1}</td>
                 <td>${dataProduct[i].title}</td>
                 <td>${dataProduct[i].price}</td>
                 <td>${dataProduct[i].taxes}</td>
                 <td>${dataProduct[i].ads}</td>
-                <td>${dataProduct[i].total}</td>
+                <td>${dataProduct[i].count}</td>
                 <td>${dataProduct[i].discount}</td>
+                <td>${dataProduct[i].total}</td>
+                <td>${dataProduct[i].totalAll}</td>
                 <td>${dataProduct[i].category}</td>
-                <td><button onclick="updateData(${i})" id="update">update</button></td>  
-                <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
+                <td><button onclick="updateData(${i})" id="update" class="btn btn-success">update</button></td>  
+                <td><button onclick="deleteData(${i})" id="delete" class="btn btn-danger">delete</button></td>
             </tr>`;
       }
     }
-  } else {
+  } 
+  else {
     for (let i = 0; i < dataProduct.length; i++) {
       if (dataProduct[i].category.includes(value.toLowerCase())) {
         table += `
         <tr>
-              <td>${i}</td>
+              <td>${i + 1}</td>
               <td>${dataProduct[i].title}</td>
               <td>${dataProduct[i].price}</td>
               <td>${dataProduct[i].taxes}</td>
               <td>${dataProduct[i].ads}</td>
-              <td>${dataProduct[i].total}</td>
+              <td>${dataProduct[i].count}</td>
               <td>${dataProduct[i].discount}</td>
+              <td>${dataProduct[i].total}</td>
+              <td>${dataProduct[i].totalAll}</td>
               <td>${dataProduct[i].category}</td>
-              <td><button onclick="updateData(${i})" id="update">update</button></td>  
-              <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
+              <td><button onclick="updateData(${i})" id="update"class="btn btn-success">update</button></td>  
+              <td><button onclick="deleteData(${i})" id="delete" class="btn btn-danger">delete</button></td>
           </tr>`;
       }
     }
@@ -215,3 +249,26 @@ function searchData(value) {
 }
 
 //clean data
+
+// استرجاع البيانات من localStorage
+function getDataFromLocalStorage() {
+  const data = JSON.parse(localStorage.getItem("product")) || [];
+  return data;
+}
+// تحويل البيانات إلى ورقة عمل
+function createSheet(data) {
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  return workbook;
+}
+// تحميل ملف Excel
+function downloadExcel(workbook) {
+  XLSX.writeFile(workbook, "dataCrud.xlsx");
+}
+// عند الضغط على الزر، استرجاع البيانات وتنزيلها كملف Excel
+document.getElementById("downloadBtn").addEventListener("click", function () {
+  const data = getDataFromLocalStorage();
+  const workbook = createSheet(data);
+  downloadExcel(workbook);
+});
