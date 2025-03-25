@@ -29,11 +29,11 @@ let tmp;
 function getTotal() {
   if (price.value != "") {
     let result = +price.value + +taxes.value + +ads.value - +discount.value;
-    total.innerHTML = result;
-    total.style.background = "green";
+    total.innerHTML =  result;
+    // total.style.background = "succes";
   } else {
     total.innerHTML = "";
-    total.style.background = "red";
+    // total.style.background = "red";
   }
 }
 
